@@ -78,8 +78,8 @@ namespace DeepWoodsMod
             public override void sendFarmhand() { intercepted.sendFarmhand(); }
             public override void sendServerToClientsMessage(string message) { intercepted.sendServerToClientsMessage(message); }
             public override void StartServer() { intercepted.StartServer(); }
-            public override void tickFarmerRoots() { intercepted.tickFarmerRoots(); }
-            public override void tickLocationRoots() { intercepted.tickLocationRoots(); }
+            //public override void tickFarmerRoots() { intercepted.tickFarmerRoots(); }
+            //public override void tickLocationRoots() { intercepted.tickLocationRoots(); }
             public override void UpdateEarly() { intercepted.UpdateEarly(); }
             public override void UpdateLate(bool forceSync = false) { intercepted.UpdateLate(forceSync); }
             public override void writeObjectDelta<T>(BinaryWriter writer, NetRoot<T> root) { intercepted.writeObjectDelta<T>(writer, root); }
@@ -135,7 +135,7 @@ namespace DeepWoodsMod
                     int deepwoodsMessageType = msg.Reader.ReadInt32();
                     int randId = Game1.random.Next();
 
-                    ModEntry.Log("InterceptProcessIncomingMessage["+randId+ "], master id: " + Game1.MasterPlayer.UniqueMultiplayerID + ", local id: " + Game1.player.UniqueMultiplayerID + ", msg.FarmerID: " + msg.FarmerID + ", deepwoodsMessageType: " + deepwoodsMessageType, StardewModdingAPI.LogLevel.Debug);
+                    ModEntry.Log("InterceptProcessIncomingMessage[" + randId + "], master id: " + Game1.MasterPlayer.UniqueMultiplayerID + ", local id: " + Game1.player.UniqueMultiplayerID + ", msg.FarmerID: " + msg.FarmerID + ", deepwoodsMessageType: " + deepwoodsMessageType, StardewModdingAPI.LogLevel.Debug);
 
                     Farmer who = Game1.getFarmer(msg.FarmerID);
                     if (who == null || who == Game1.player)
@@ -293,7 +293,7 @@ namespace DeepWoodsMod
             {
                 if (IsMultiplayerType(field.GetType())
                     && IsInterceptedMultiplayer(field.GetValue(multiplayer) as Multiplayer))
-                        return true;
+                    return true;
             }
 
             return false;
