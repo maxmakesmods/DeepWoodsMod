@@ -16,7 +16,7 @@ namespace DeepWoodsMod
     {
         private Game1MultiplayerAccessProvider() { }
 
-        public class InterceptingMultiplayer : Multiplayer
+        private class InterceptingMultiplayer : Multiplayer
         {
             private Multiplayer intercepted;
 
@@ -78,8 +78,8 @@ namespace DeepWoodsMod
             public override void sendFarmhand() { intercepted.sendFarmhand(); }
             public override void sendServerToClientsMessage(string message) { intercepted.sendServerToClientsMessage(message); }
             public override void StartServer() { intercepted.StartServer(); }
-            public override void tickFarmerRoots() { intercepted.tickFarmerRoots(); }
-            public override void tickLocationRoots() { intercepted.tickLocationRoots(); }
+            //public override void tickFarmerRoots() { intercepted.tickFarmerRoots(); }
+            //public override void tickLocationRoots() { intercepted.tickLocationRoots(); }
             public override void UpdateEarly() { intercepted.UpdateEarly(); }
             public override void UpdateLate(bool forceSync = false) { intercepted.UpdateLate(forceSync); }
             public override void writeObjectDelta<T>(BinaryWriter writer, NetRoot<T> root) { intercepted.writeObjectDelta<T>(writer, root); }
@@ -118,7 +118,7 @@ namespace DeepWoodsMod
                 public Vector2 EnterLocation { get; set; }
             }
 
-            private static DeepWoodsWarpMessageData ReadDeepWoodsWarpMessage(BinaryReader reader)
+            private DeepWoodsWarpMessageData ReadDeepWoodsWarpMessage(BinaryReader reader)
             {
                 return new DeepWoodsWarpMessageData()
                 {
@@ -129,15 +129,6 @@ namespace DeepWoodsMod
             }
 
             private void InterceptProcessIncomingMessage(IncomingMessage msg)
-            {
-                bool executeOriginal = InternalProcessIncomingMessage(msg);
-                if (executeOriginal)
-                    intercepted.processIncomingMessage(msg);
-            }
-
-            // This method is also called by the patch in DeepWoodsMTNCompatibilityMod.
-            // We return false when we handled this message, so Harmony will cancel the original MTN handler.
-            private static bool InternalProcessIncomingMessage(IncomingMessage msg)
             {
                 if (msg.MessageType == Settings.Network.DeepWoodsMessageId)
                 {
@@ -150,7 +141,7 @@ namespace DeepWoodsMod
                     if (who == null || who == Game1.player)
                     {
                         ModEntry.Log(" who is null or local!", StardewModdingAPI.LogLevel.Warn);
-                        return true; // execute original
+                        return;
                     }
 
                     if (deepwoodsMessageType == NETWORK_MESSAGE_DEEPWOODS_INIT)
@@ -263,14 +254,13 @@ namespace DeepWoodsMod
                         else
                         {
                             ModEntry.Log(" [" + randId + "] unknown deepwoodsMessageType: " + deepwoodsMessageType + "!", StardewModdingAPI.LogLevel.Warn);
-                            return true; // execute original
                         }
                     }
-
-                    return false; // don't execute original
                 }
-
-                return true; // execute original
+                else
+                {
+                    intercepted.processIncomingMessage(msg);
+                }
             }
         }
 
