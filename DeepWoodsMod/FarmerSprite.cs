@@ -1,5 +1,4 @@
-﻿using DeepWoodsMod.API.Impl;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using StardewValley;
 using System;
 using System.Collections.Generic;
@@ -266,7 +265,7 @@ namespace DeepWoodsMod
 
         private static TemporaryAnimatedSprite CreateTemporaryAnimatedSpriteForEasterEggItemIntake(EasterEggItem easterEggItem, float animationInterval, Vector2 location, float layerDepth, float alphaFade, float scaleChange)
         {
-            Rectangle sourceRectangle = Game1.getSourceRectForStandardTileSheet(DeepWoodsTextures.Textures.Festivals, easterEggItem.eggTileIndex, 16, 16);
+            Rectangle sourceRectangle = Game1.getSourceRectForStandardTileSheet(easterEggItem.texture, easterEggItem.eggTileIndex, 16, 16);
 
             return new TemporaryAnimatedSprite("Maps\\Festivals", sourceRectangle, animationInterval, 1, 0, location, false, false, layerDepth, alphaFade, Color.White, 4f, scaleChange, 0.0f, 0.0f, false);
         }

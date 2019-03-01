@@ -73,7 +73,7 @@ namespace DeepWoodsMod
             ModEntry.mod = this;
             ModEntry.multiplayer = helper.Reflection.GetField<Multiplayer>(typeof(Game1), "multiplayer").GetValue();
             DeepWoodsSettings.Init(helper.Translation);
-            DeepWoodsTextures.Textures.LoadAll();
+            Textures.LoadAll();
             RegisterEvents(helper.Events);
         }
 
@@ -520,11 +520,11 @@ namespace DeepWoodsMod
         {
             if (asset.AssetNameEquals($"Buildings\\{WOODS_OBELISK_BUILDING_NAME}"))
             {
-                return (T)(object)DeepWoodsTextures.Textures.WoodsObelisk;
+                return (T)(object)Textures.woodsObelisk;
             }
             else if (asset.AssetNameEquals("Maps\\deepWoodsLakeTilesheet"))
             {
-                return (T)(object)DeepWoodsTextures.Textures.LakeTilesheet;
+                return (T)(object)Textures.lakeTilesheet;
             }
             else
             {

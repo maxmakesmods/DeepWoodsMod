@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using static DeepWoodsMod.DeepWoodsSettings;
 using static DeepWoodsMod.DeepWoodsGlobals;
-using DeepWoodsMod.API.Impl;
 
 namespace DeepWoodsMod
 {
@@ -252,7 +251,7 @@ namespace DeepWoodsMod
             if (isPetted)
                 return;
 
-            typeof(AnimatedSprite).GetField("spriteTexture", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(this.Sprite, DeepWoodsTextures.Textures.Unicorn);
+            typeof(AnimatedSprite).GetField("spriteTexture", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(this.Sprite, Textures.unicorn);
             base.draw(b);
         }
 
