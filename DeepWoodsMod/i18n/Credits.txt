@@ -1,5 +1,6 @@
 Translations:
 
+de.json by Deflaktor (https://github.com/Deflaktor)
 es.json by skullSG (https://forums.nexusmods.com/index.php?showuser=55091432)
 fr.json by AresRyu (https://forums.nexusmods.com/index.php?/user/31452340-aresryu/)
 hu.json by martin66789 (https://www.nexusmods.com/users/27323031)
