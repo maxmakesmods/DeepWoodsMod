@@ -6,11 +6,6 @@ namespace DeepWoodsMod
 {
     public class InfestedTree : FruitTree
     {
-        public InfestedTree()
-            : base()
-        {
-        }
-
         public InfestedTree(int saplingIndex)
            : base(saplingIndex, 4)
         {

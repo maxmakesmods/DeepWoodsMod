@@ -164,9 +164,6 @@ namespace DeepWoodsMod
     {
         public int MinLevelForFlowers { get; set; } = 3;
         public int MinLevelForFruits { get; set; } = 5;
-        public int MinLevelForSilverFruits { get; set; } = 25;
-        public int MinLevelForGoldFruits { get; set; } = 75;
-        public int MinLevelForIridiumFruits { get; set; } = 100;
         public int MinLevelForThornyBushes { get; set; } = 10;
         public int MinLevelForDangerousMonsters { get; set; } = 15;
         public int MinLevelForBuffedMonsters { get; set; } = 15;
@@ -302,9 +299,6 @@ namespace DeepWoodsMod
         public Chance ChanceForSmallTree { get; set; } = new Chance(10);
         public Chance ChanceForGrownFruitTree { get; set; } = new Chance(1);
         public Chance ChanceForSmallFruitTree { get; set; } = new Chance(5);
-        public Chance ChanceForSilverFruits { get; set; } = new Chance(new LuckValue(15, 25));
-        public Chance ChanceForGoldFruits { get; set; } = new Chance(new LuckValue(5, 35));
-        public Chance ChanceForIridiumFruits { get; set; } = new Chance(new LuckValue(0, 45));
         public Chance ChanceForWeed { get; set; } = new Chance(20);
         public Chance ChanceForTwig { get; set; } = new Chance(10);
         public Chance ChanceForStone { get; set; } = new Chance(10);
@@ -508,7 +502,6 @@ namespace DeepWoodsMod
     public class DeepWoodsStateData
     {
         private int lowestLevelReached = 0;
-        private int orbStonesSaved = 0;
 
         public HashSet<long> PlayersWhoGotStardropFromUnicorn { get; set; } = new HashSet<long>();
         public HashSet<XY> WoodsObeliskLocations { get; set; } = new HashSet<XY>();
@@ -533,29 +526,6 @@ namespace DeepWoodsMod
                     }
                 }
                 lowestLevelReached = value;
-            }
-        }
-
-        public int OrbStonesSaved
-        {
-            get
-            {
-                return orbStonesSaved;
-            }
-
-            set
-            {
-                if (value > orbStonesSaved && Game1.IsMasterGame)
-                {
-                    foreach (Farmer who in Game1.otherFarmers.Values)
-                    {
-                        if (who != Game1.player)
-                        {
-                            ModEntry.SendMessage(value, MessageId.SetOrbStonesSaved, who.UniqueMultiplayerID);
-                        }
-                    }
-                }
-                orbStonesSaved = value;
             }
         }
     }

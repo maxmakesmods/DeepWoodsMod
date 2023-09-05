@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Input;
 using StardewValley;
 using StardewValley.Menus;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -25,7 +24,9 @@ namespace DeepWoodsMod.UI
         private static readonly string ModInfoText =
             "Hi, I am Max! < I make DeepWoods.^" +
             "^" +
-            "If you love this mod, I invite you to join me on Discord and Youtube, where I post updates and engage with my community.^" +
+            "I am working on a compelling story involving mystery and greed. Get ready for = new locations, = new characters, and = new secrets.^" +
+            "^" +
+            "While waiting, I invite you to join me on Discord and Youtube, where I post updates and engage with my community.^" +
             "^" +
             "Thank you! < ~Max";
 
@@ -102,7 +103,8 @@ namespace DeepWoodsMod.UI
 
         private static void readRandomBook()
         {
-            Game1.showRedMessage(I18N.BookTexts.Get(new Random().Next(1, I18N.BookTexts.textIDs.Length)));
+            // TODO: Random book + low chance to get skill increase
+            Game1.showRedMessage(I18N.BooksInteresting);
         }
 
         private static void OpenURL(string url)
