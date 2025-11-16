@@ -1,4 +1,4 @@
-# <img src="deepwoods_icon.png" alt="DeepWoods Game Icon" height="50"/> DeepWoods
+# <img src="deepwoods_icon.png" alt="DeepWoods Game Icon" height="50"/> DeepWoodsMod for Stardew Valley
 
 A mod for Stardew Valley that adds a procedurally generated infinite forest with secrets to discover, difficult challenges to overcome, and vast layers of levels to explore.
 

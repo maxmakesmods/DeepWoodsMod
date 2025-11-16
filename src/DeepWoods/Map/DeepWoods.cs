@@ -426,7 +426,9 @@ namespace DeepWoodsMod
                 DeepWoodsManager.currentWarpRequestLocation = null;
             }
             // then check if we spawned at the minecart (no action needed):
-            else if (Level == 1 && who.Position.X == DeepWoodsMineCart.MineCartLocation.X && who.Position.Y == (DeepWoodsMineCart.MineCartLocation.Y + 1))
+            else if (Level == 1
+                && who.Position.X == DeepWoodsMineCart.MineCartLocation.X * 64
+                && who.Position.Y == (DeepWoodsMineCart.MineCartLocation.Y + 1) * 64 + 16)
             {
                 // noop
             }

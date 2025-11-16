@@ -165,8 +165,10 @@ namespace DeepWoodsMod
             }
 
             DeepWoodsManager.Remove();
-            WoodsObelisk.RemoveAllFromGame();
+            WoodsObeliskHelper.RemoveAllFromGame();
             DeepWoodsSettings.DoSave();
+
+            // TODO: Find and remove DeepWoods trees (and maybe other objects?) from game levels
         }
 
         private void RestoreAfterSave()
@@ -188,7 +190,7 @@ namespace DeepWoodsMod
             }
 
             DeepWoodsManager.Restore();
-            WoodsObelisk.RestoreAllInGame();
+            WoodsObeliskHelper.RestoreAllInGame();
         }
 
         private void OnReturnedToTitle(object sender, ReturnedToTitleEventArgs args)
@@ -211,7 +213,7 @@ namespace DeepWoodsMod
             {
                 DeepWoodsSettings.DoLoad();
                 DeepWoodsManager.Add();
-                WoodsObelisk.RestoreAllInGame();
+                WoodsObeliskHelper.RestoreAllInGame();
                 IsDeepWoodsGameRunning = true;
             }
             else
@@ -310,12 +312,8 @@ namespace DeepWoodsMod
             // Fix lighting in Woods and DeepWoods
             DeepWoodsManager.FixLighting();
 
-            // Add woods obelisk to wizard shop if possible and necessary,
-            // intercept Building.obeliskWarpForReal() calls.
-            WoodsObelisk.InjectWoodsObeliskIntoGame();
-
-            // Add DeepWoods Minecart if possible and necessary
-            DeepWoodsMineCart.InjectDeepWoodsMineCartIntoGame();
+            // Register any of our custom game state queries
+            DeepWoodsContentAdder.RegisterGameStateQueries();
         }
 
         private void OnRendered(object sender, RenderedEventArgs e)

@@ -1,4 +1,4 @@
-# <img src="deepwoods_icon.png" alt="DeepWoods Game Icon" height="50"/> DeepWoods
+# <img src="deepwoods_icon.png" alt="DeepWoods Game Icon" height="50"/> DeepWoodsMod for Stardew Valley
 
 A mod for Stardew Valley that adds a procedurally generated infinite forest with secrets to discover, difficult challenges to overcome, and vast layers of levels to explore.
 
@@ -10,12 +10,19 @@ A mod for Stardew Valley that adds a procedurally generated infinite forest with
 
 ### Release Notes
 
+---
+#### 4.1.0-beta
+ - Fully updated for Stardew Valley 1.6
+
+---
 #### 4.0.1-alpha
  - Fixed paths in mod zip for Linux systems
 
+---
 #### 4.0.0-alpha
  - Fixes and updates for 1.6.9 compatibility (WIP)
 
+---
 #### 3.1.0-beta
  - Fixed splitscreen multiplayer
  - Fixed crash bug in infested levels in multiplayer

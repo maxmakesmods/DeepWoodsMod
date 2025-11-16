@@ -1,5 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using DeepWoodsMod.API.Impl;
+using DeepWoodsMod.Stuff;
+using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Extensions;
 using StardewValley.TerrainFeatures;
 using System;
 using System.Collections.Generic;
@@ -7,8 +10,6 @@ using System.Linq;
 using xTile.Dimensions;
 using static DeepWoodsMod.DeepWoodsRandom;
 using static DeepWoodsMod.DeepWoodsSettings;
-using DeepWoodsMod.API.Impl;
-using DeepWoodsMod.Stuff;
 
 namespace DeepWoodsMod
 {
@@ -279,15 +280,15 @@ namespace DeepWoodsMod
                     }
                     else if (this.random.CheckChance(Settings.Luck.Terrain.ChanceForGrownTree) && IsRegionTreeFree(location, 1))
                     {
-                        deepWoods.terrainFeatures[location] = new Tree(GetRandomTreeType(), Tree.treeStage);
+                        deepWoods.terrainFeatures[location] = GetRandomTree(Tree.treeStage);
                     }
                     else if (this.random.CheckChance(Settings.Luck.Terrain.ChanceForMediumTree))
                     {
-                        deepWoods.terrainFeatures[location] = new Tree(GetRandomTreeType(), Tree.bushStage);
+                        deepWoods.terrainFeatures[location] = GetRandomTree(Tree.bushStage);
                     }
                     else if (this.random.CheckChance(Settings.Luck.Terrain.ChanceForSmallTree))
                     {
-                        deepWoods.terrainFeatures[location] = new Tree(GetRandomTreeType(), this.random.GetRandomValue(Tree.sproutStage, Tree.saplingStage));
+                        deepWoods.terrainFeatures[location] = GetRandomTree(this.random.GetRandomValue(Tree.sproutStage, Tree.saplingStage));
                     }
                     else if (this.random.CheckChance(Settings.Luck.Terrain.ChanceForGrownFruitTree) && IsRegionTreeFree(location, 2))
                     {
@@ -361,6 +362,14 @@ namespace DeepWoodsMod
 
         private StardewValley.Object CreateObject(string id, bool canBePickedUp)
         {
+            if (ItemRegistry.IsQualifiedItemId(id))
+            {
+                string typeDefinitionId = "(O)";
+                if (id.StartsWith(typeDefinitionId))
+                {
+                    id = id.Substring(typeDefinitionId.Length).TrimStart();
+                }
+            }
             return new StardewValley.Object(id, 1, false, -1, GetRandomItemQuality())
             {
                 IsSpawnedObject = canBePickedUp,
@@ -952,7 +961,14 @@ namespace DeepWoodsMod
 
         private string GetRandomWeedType()
         {
-            return GameLocation.getWeedForSeason(new Random(this.random.GetRandomValue()), Game1.season);
+            if (deepWoods.IsGreenRainingHere())
+            {
+                return "(O)GreenRainWeeds" + Game1.random.Next(8);
+            }
+            else
+            {
+                return GameLocation.getWeedForSeason(new Random(this.random.GetRandomValue()), Game1.season);
+            }
         }
 
         private string GetRandomForageable()
@@ -989,9 +1005,18 @@ namespace DeepWoodsMod
             return this.random.GetRandomValue(new int[] { 294, 295 }).ToString();
         }
 
-        private string GetRandomTreeType()
+        private Tree GetRandomTree(int treeStage)
         {
-            return this.random.GetRandomValue(Settings.Luck.Terrain.TreeTypes).ToString();
+            if (deepWoods.IsGreenRainingHere())
+            {
+                string treeType = (10 + (Game1.random.NextBool(0.1) ? 2 : Game1.random.Choose(1, 0))).ToString();
+                return new Tree(treeType, treeStage, isGreenRainTemporaryTree: true);
+            }
+            else
+            {
+                string treeType = this.random.GetRandomValue(Settings.Luck.Terrain.TreeTypes).ToString();
+                return new Tree(treeType, treeStage);
+            }
         }
 
         private string GetRandomMushroomType()
@@ -1135,19 +1160,12 @@ namespace DeepWoodsMod
             DeepWoodsMaxHouse.MaxHutLocation = maxHutLocation;
             deepWoods.largeTerrainFeatures.Add(new MaxHut(maxHutLocation));
 
-            // TODO: TEMP: 1.6: fruit trees drop seeds. disable fruit tree for now
-            /*
             var fruitTree1Location = new Vector2(deepWoods.EnterLocation.X + Settings.Map.ExitRadius + 2 + 6, deepWoods.EnterLocation.Y + 8);
             AddRipeFruitTree(fruitTree1Location);
-            */
-
-            /*
             var fruitTree2Location = new Vector2(deepWoods.EnterLocation.X - Settings.Map.ExitRadius - 2 - 2, deepWoods.EnterLocation.Y + 7);
             AddRipeFruitTree(fruitTree2Location);
-
             var fruitTree3Location = new Vector2(deepWoods.EnterLocation.X - Settings.Map.ExitRadius - 2 - 6, deepWoods.EnterLocation.Y + 9);
             AddRipeFruitTree(fruitTree3Location);
-            */
 
 
             // big welcome sign with minecart

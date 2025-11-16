@@ -1,8 +1,18 @@
-# <img src="deepwoods_icon.png" alt="DeepWoods Game Icon" height="50"/> DeepWoods
+# <img src="deepwoods_icon.png" alt="DeepWoods Game Icon" height="50"/> DeepWoodsMod for Stardew Valley
 
 **Download on NexusMods: [DeepWoods](https://www.nexusmods.com/stardewvalley/mods/2571/)**
 
 A mod for Stardew Valley that adds a procedurally generated infinite forest with secrets to discover, difficult challenges to overcome, and vast layers of levels to explore.
+
+#### Watch me make this mod in my DeepWoodsMod devlogs!
+
+- [DeepWoods The Mod Devlog](https://www.patreon.com/collection/1737960)
+
+#### Also check out my standalone DeepWoods game (unreleased):
+
+- [DeepWoods The Game Devlog](https://www.patreon.com/collection/1737955)
+
+#### About the Mod
 
 - **Unique and Immersive Experience**  
 A vast and deep forest generated anew in every game and on every visit on-the-fly. You never know what the next corner, the next level, and the next path might bring.
@@ -16,29 +26,17 @@ The config file lets you change hundreds of settings and values, that control le
 - **Danger with Great Rewards**  
 The deeper you go, the more there is to discover. But the forest can be ruthless. Strong and fast monsters, unique infested levels, and more dangers are waiting for you.
 
-#### Support the Mod!
-
-[🍵 Ko-Fi](https://www.ko-fi.com/maxmakesmods)
-[💸 Patreon](https://www.patreon.com/maxmakesmods)
-
----
-#### Docs
-
-- [Contributing](contributing.md)
-- [License Info](license-info.md)
-- [Release Notes](release-notes.md)
-
----
 #### Links
 
-- Discord: [Max Makes Mods](https://discord.gg/jujwEGf62K)
-- Youtube: [Max Makes Mods](https://youtube.com/maxmakesmods)
+- [DeepWoods on NexusMods](https://www.nexusmods.com/stardewvalley/mods/2571/)
+- [Source Code](https://github.com/maxmakesmods/DeepWoodsMod)
+- [Changelog](https://github.com/maxmakesmods/DeepWoodsMod/tree/main/docs/release-notes.md)
 
----
+- [Discord](https://discord.gg/jujwEGf62K)
+- [Patreon](https://www.patreon.com/maxmakesmods)
+- [Ko-Fi](https://www.ko-fi.com/maxmakesmods)
+
 #### Thanks
 
-Patreon and Ko-Fi Supporters (former and current, order randomized):
-
-Johnny Cambridge, MochiVR, Nicholas Kolettis, Stratica, softboy rodvt, Robert Curtin, Alex Coulter, Viktor Vitebskiy, Skummeh, EvilReFlex, Rhikter_937, Lev, Ignacio García, Harold Flower, Jay Lucero, William Kreusch, Auraya, Eric Gulve, Cereal, Alex Iliescu, Marek Järve, Sean Brown, Legion, Samuel Bernstein, Dante Teresi, FogStater, David Zwolinski, Peter Anderson, David Kuhndt, Inimitable, Liz Edwards, Aivars Zerg, Zane, Ruben Ruoff, Roswitha Siedelberg, CoraBlue, Uncoolest_Evar, Jobert, Thomas Nielsen, udwxmoose, Garrulous64, kahvikone ., DoesntDoot, ScoobyAS, Devin Stapleford, Christopher Rose, Gabriel Wiegan, Xodetaetl, Daniel Hirt, Joshua Cluelow, Ari Tuohenmaa, SquidHominid, brandon domenichelli, David Masse, Bernie Coors, Saedriss, phantom lord, Tom, villain749, Vince Trust, Junt, Fabian, rntlpbm, Benjamin Stanley, Sergio Berg, Michael Hoffmann, Jonathan Shihor, Dan Mizu, Ethan Davis, Jay Sones, Corom, Hamish Prendergast, Franklyn Tackitt, George Goodwin, Hermann Hetzer, DetriniuM, Chris, IceTee, Sophie, Woody G, Adam Sinclair, Rob L
-
+All my fans, contributors, and supporters. You are amazing!
 

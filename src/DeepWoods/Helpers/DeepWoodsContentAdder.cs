@@ -1,25 +1,29 @@
 ﻿
-using static DeepWoodsMod.DeepWoodsSettings;
-using static DeepWoodsMod.DeepWoodsGlobals;
-using System.Collections.Generic;
-using StardewModdingAPI.Events;
 using DeepWoodsMod.API.Impl;
-using StardewModdingAPI.Enums;
+using DeepWoodsMod.Stuff;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using xTile;
+using StardewModdingAPI;
+using StardewModdingAPI.Enums;
+using StardewModdingAPI.Events;
+using StardewValley;
+using StardewValley.Delegates;
+using StardewValley.GameData.Buildings;
+using StardewValley.GameData.Minecarts;
+using StardewValley.Locations;
+using StardewValley.Menus;
+using StardewValley.Objects;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using StardewValley.Menus;
-using StardewValley;
 using System.Reflection;
-using DeepWoodsMod.Stuff;
-using StardewModdingAPI;
-using StardewValley.Locations;
+using xTile;
 using xTile.Layers;
-using xTile.Tiles;
-using StardewValley.Objects;
 using xTile.ObjectModel;
+using xTile.Tiles;
+using static DeepWoodsMod.DeepWoodsGlobals;
+using static DeepWoodsMod.DeepWoodsSettings;
 
 namespace DeepWoodsMod.Helpers
 {
@@ -49,13 +53,17 @@ namespace DeepWoodsMod.Helpers
             {
                 e.Edit(a => EditMail(a.AsDictionary<string, string>().Data));
             }
-            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Blueprints"))
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Minecarts"))
             {
-                e.Edit(a => EditBlueprints(a.AsDictionary<string, string>().Data));
+                e.Edit(a => EditMinecarts(a.AsDictionary<string, MinecartNetworkData>().Data));
+            }
+            else if (e.NameWithoutLocale.IsEquivalentTo("Data/Buildings"))
+            {
+                e.Edit(a => EditBuildings(a.AsDictionary<string, BuildingData>().Data));
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/NPCDispositions"))
             {
-                e.Edit(a => EditNPCDispositions(a.AsDictionary<string, string>().Data));
+                e.Edit(a => EditNPCDispositions(a.AsDictionary<string, string>().Data));    //Characters -> CharacterData
             }
             else if (e.NameWithoutLocale.IsEquivalentTo("Data/NPCGiftTastes"))
             {
@@ -98,10 +106,6 @@ namespace DeepWoodsMod.Helpers
             else if (e.NameWithoutLocale.IsEquivalentTo("Maps/deepWoodsInfestedOutdoorsTileSheet"))
             {
                 e.LoadFrom(() => { return DeepWoodsTextures.Textures.InfestedOutdoorsTilesheet; }, AssetLoadPriority.Medium);
-            }
-            else if (e.NameWithoutLocale.IsEquivalentTo("MinecartPatcher.Minecarts"))
-            {
-                e.Edit(a => EditMinecartPatcherMinecarts(a.GetData<IDictionary>()));
             }
             else if (e.Name.IsEquivalentTo("Maps/Woods"))
             {
@@ -159,8 +163,21 @@ namespace DeepWoodsMod.Helpers
             }
         }
 
-        private static void EditMinecartPatcherMinecarts(IDictionary data)
+        private static void EditMinecarts(IDictionary<string, MinecartNetworkData> data)
         {
+            if (data.TryGetValue("Default", out MinecartNetworkData minecartNetwork))
+            {
+                minecartNetwork.Destinations.Add(new MinecartDestinationData()
+                {
+                    Id = DeepWoodsMineCart.DeepWoodsMineCartId,
+                    DisplayName = I18N.DeepWoodsMineCartText,
+                    TargetLocation = "DeepWoods",
+                    TargetTile = DeepWoodsMineCart.MineCartLocation.ToPoint() + new Point(0, 1),
+                    Condition = WOODS_MINECART_CONDITION
+                });
+            }
+
+            /*
             if (DeepWoodsState.LowestLevelReached == 0)
             {
                 return;
@@ -187,12 +204,8 @@ namespace DeepWoodsMod.Helpers
             SetProperty(deepWoodsMinecartInstance, "LandingPointX", (int)DeepWoodsMineCart.MineCartLocation.X);
             SetProperty(deepWoodsMinecartInstance, "LandingPointY", (int)DeepWoodsMineCart.MineCartLocation.Y + 1);
 
-            data.Add("maxmakesmods.deepwoodsmod.deepwoods", deepWoodsMinecartInstance);
-        }
-
-        private static void SetProperty(object minecartInstance, string propertyName, object propertyValue)
-        {
-            minecartInstance.GetType().GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance).SetValue(minecartInstance, propertyValue);
+            data.Add("maxvollmer.deepwoodsmod.deepwoods", deepWoodsMinecartInstance);
+            */
         }
 
         public static void EditMail(IDictionary<string, string> mailData)
@@ -200,19 +213,26 @@ namespace DeepWoodsMod.Helpers
             mailData.Add(WOODS_OBELISK_WIZARD_MAIL_ID, I18N.WoodsObeliskWizardMailMessage);
         }
 
-        public static void EditBlueprints(IDictionary<string, string> bluePrintsData)
+        public static void RegisterGameStateQueries()
         {
-            string itemsRequired = "";
-
-            foreach (var item in Settings.Objects.WoodsObelisk.ItemsRequired)
+            if (!GameStateQuery.Exists(WOODS_OBELISK_BUILDING_CONDITION))
             {
-                itemsRequired += item.Key + " " + item.Value + " ";
+                GameStateQuery.Register(WOODS_OBELISK_BUILDING_CONDITION, WoodsObeliskHelper.CanBuildWoodsObelisk);
             }
+            if (!GameStateQuery.Exists(WOODS_MINECART_CONDITION))
+            {
+                GameStateQuery.Register(WOODS_MINECART_CONDITION, IsMinecartAccessible);
+            }
+        }
 
-            bluePrintsData.Add(
-                WOODS_OBELISK_BUILDING_NAME,
-                "" + itemsRequired.Trim() + "/3/2/-1/-1/-2/-1/null/" + I18N.WoodsObeliskDisplayName + "/" + I18N.WoodsObeliskDescription + "/Buildings/none/48/128/-1/null/Farm/" + Settings.Objects.WoodsObelisk.MoneyRequired + "/true"
-            );
+        private static bool IsMinecartAccessible(string[] query, GameStateQueryContext context)
+        {
+            return DeepWoodsState.LowestLevelReached > 0;
+        }
+
+        public static void EditBuildings(IDictionary<string, BuildingData> buildingsData)
+        {
+            buildingsData.Add(WOODS_OBELISK_BUILDING_NAME, WoodsObeliskHelper.WoodsObeliskBuildingData);
         }
 
         public static void EditNPCDispositions(IDictionary<string, string> npcDispositionsData)

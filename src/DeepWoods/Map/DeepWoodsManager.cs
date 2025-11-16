@@ -414,7 +414,7 @@ namespace DeepWoodsMod
             lostMessageDisplayedToday = false;
             nextRandomizeTime = 0;
 
-            WoodsObelisk.SendLetterIfNecessaryAndPossible();
+            WoodsObeliskHelper.SendLetterIfNecessaryAndPossible();
         }
 
         // This is called by every client everytime the time of day changes (10 ingame minute intervals)

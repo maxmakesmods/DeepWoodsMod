@@ -4,6 +4,9 @@ namespace DeepWoodsMod
 {
     public class DeepWoodsGlobals
     {
+        public readonly static string WOODS_OBELISK_BUILDING_CONDITION = "maxvollmer.deepwoodsmod.WoodsObeliskBuildingCondition";
+        public readonly static string WOODS_MINECART_CONDITION = "maxvollmer.deepwoodsmod.WoodsMinecartCondition";
+
         public readonly static string WOODS_OBELISK_BUILDING_NAME = "Woods Obelisk";
         public readonly static string EARTH_OBELISK_BUILDING_NAME = "Earth Obelisk";
 
