@@ -10,9 +10,7 @@ using Omegasis.SaveAnywhere.API;
 using DeepWoodsMod.API.Impl;
 using DeepWoodsMod.Framework.Messages;
 using DeepWoodsMod.Helpers;
-using DeepWoodsMod.Stuff;
 using StardewModdingAPI.Utilities;
-using xTile.Tiles;
 
 namespace DeepWoodsMod
 {
@@ -166,9 +164,8 @@ namespace DeepWoodsMod
 
             DeepWoodsManager.Remove();
             WoodsObeliskHelper.RemoveAllFromGame();
+            DeepWoodsFruitTreeCleanUpper.CleanUpBeforeSave();
             DeepWoodsSettings.DoSave();
-
-            // TODO: Find and remove DeepWoods trees (and maybe other objects?) from game levels
         }
 
         private void RestoreAfterSave()

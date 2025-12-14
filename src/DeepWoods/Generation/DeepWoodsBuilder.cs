@@ -10,9 +10,7 @@ using static DeepWoodsMod.DeepWoodsRandom;
 using static DeepWoodsMod.DeepWoodsTileDefinitions;
 using static DeepWoodsMod.DeepWoodsSettings;
 using static DeepWoodsMod.DeepWoodsGlobals;
-using StardewValley;
 using DeepWoodsMod.Stuff;
-using StardewModdingAPI;
 
 namespace DeepWoodsMod
 {

@@ -2,12 +2,10 @@
 using Microsoft.Xna.Framework.Input;
 using StardewValley;
 using StardewValley.Menus;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using static DeepWoodsMod.I18N;
 
 namespace DeepWoodsMod.UI
 {

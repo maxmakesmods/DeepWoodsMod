@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using StardewValley.Tools;
 using StardewValley;
 using System.IO;
-using StardewValley.TerrainFeatures;
 
 namespace DeepWoodsMod
 {
@@ -543,8 +542,9 @@ namespace DeepWoodsMod
         private int lowestLevelReached = 0;
         private int orbStonesSaved = 0;
 
-        public HashSet<long> PlayersWhoGotStardropFromUnicorn { get; set; } = new HashSet<long>();
-        public HashSet<XY> WoodsObeliskLocations { get; set; } = new HashSet<XY>();
+        public HashSet<long> PlayersWhoGotStardropFromUnicorn { get; set; } = new();
+        public HashSet<XY> WoodsObeliskLocations { get; set; } = new();
+        public Dictionary<string, HashSet<XY>> WoodsObeliskNonFarmLocations { get; set; } = new();
 
         public int LowestLevelReached
         {

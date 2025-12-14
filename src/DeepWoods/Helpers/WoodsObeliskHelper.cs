@@ -3,7 +3,6 @@ using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Delegates;
 using StardewValley.GameData.Buildings;
-using StardewValley.Menus;
 using System.Linq;
 using static DeepWoodsMod.DeepWoodsGlobals;
 using static DeepWoodsMod.DeepWoodsSettings;
@@ -17,8 +16,6 @@ namespace DeepWoodsMod
         {
             get
             {
-
-
                 return new()
                 {
                     Name = I18N.WoodsObeliskDisplayName,
@@ -34,12 +31,9 @@ namespace DeepWoodsMod
                     BuildingType = typeof(WoodsObelisk).AssemblyQualifiedName,
                     Texture = "Buildings\\" + WOODS_OBELISK_BUILDING_NAME,
                     Size = new Point(3, 2),
-                    //BuildCondition = WOODS_OBELISK_BUILDING_CONDITION
                 };
             }
         }
-
-        // [17:14:58 ERROR game] Can't construct building '', no data found matching that ID.
 
         public static void SendLetterIfNecessaryAndPossible()
         {
@@ -56,42 +50,6 @@ namespace DeepWoodsMod
             return DeepWoodsState.LowestLevelReached >= Settings.Level.MinLevelForWoodsObelisk
                 && Game1.player.mailReceived.Contains(WOODS_OBELISK_WIZARD_MAIL_ID);
         }
-
-        /*
-        public static void InjectWoodsObeliskIntoGame()
-        {
-            if (DeepWoodsState.LowestLevelReached >= Settings.Level.MinLevelForWoodsObelisk
-                && Game1.player.mailReceived.Contains(WOODS_OBELISK_WIZARD_MAIL_ID)
-                && Game1.activeClickableMenu is CarpenterMenu carpenterMenu
-                && IsMagical(carpenterMenu)
-                && !HasBluePrint(carpenterMenu))
-            {
-                // Add Woods Obelisk directly after the other obelisks
-                int lastObeliskIndex = carpenterMenu.Blueprints.FindLastIndex(bluePrint => bluePrint.DisplayName.Contains("Obelisk"));
-
-                CarpenterMenu.BlueprintEntry woodsObeliskBluePrint = new(
-                    index: lastObeliskIndex + 1,
-                    id: null,
-                    data: WoodsObeliskBuildingData,
-                    skinId: null
-                    );
-
-                carpenterMenu.Blueprints.Insert(lastObeliskIndex + 1, woodsObeliskBluePrint);
-            }
-        }
-
-        private static bool IsMagical(CarpenterMenu carpenterMenu)
-        {
-            return carpenterMenu.Blueprints.Exists(b => b.MagicalConstruction);
-        }
-
-        private static bool HasBluePrint(CarpenterMenu carpenterMenu)
-        {
-            return carpenterMenu.Blueprints.Exists(bluePrint => bluePrint.DisplayName == WOODS_OBELISK_BUILDING_NAME);
-        }
-        */
-
-
 
         private enum ProcessMethod
         {
@@ -113,7 +71,7 @@ namespace DeepWoodsMod
                 if (method == ProcessMethod.Remove && building is WoodsObelisk)
                 {
                     farm.buildings.Remove(building);
-                    farm.buildings.Add(Building.CreateInstanceFromId("Earth Obelisk", new (building.tileX.Value, building.tileY.Value)));
+                    farm.buildings.Add(Building.CreateInstanceFromId("Earth Obelisk", new(building.tileX.Value, building.tileY.Value)));
                     DeepWoodsState.WoodsObeliskLocations.Add(new XY(building.tileX.Value, building.tileY.Value));
                 }
                 else if (method == ProcessMethod.Restore
@@ -122,6 +80,41 @@ namespace DeepWoodsMod
                 {
                     farm.buildings.Remove(building);
                     farm.buildings.Add(new WoodsObelisk(new(building.tileX.Value, building.tileY.Value)));
+                }
+            }
+        }
+
+        private static void ProcessGameLocation(GameLocation location, ProcessMethod method)
+        {
+            ModEntry.Log("WoodsObelisk.ProcessGameLocation(" + method + "): " + location.Name, StardewModdingAPI.LogLevel.Trace);
+
+            foreach (Building building in location.buildings.ToList())
+            {
+                if (building == null)
+                {
+                    continue;
+                }
+
+                if (method == ProcessMethod.Remove && building is WoodsObelisk)
+                {
+                    location.buildings.Remove(building);
+                    location.buildings.Add(Building.CreateInstanceFromId("Earth Obelisk", new(building.tileX.Value, building.tileY.Value)));
+                    if (!DeepWoodsState.WoodsObeliskNonFarmLocations.TryGetValue(location.Name, out var locations))
+                    {
+                        locations = new();
+                        DeepWoodsState.WoodsObeliskNonFarmLocations.Add(location.Name, locations);
+                    }
+                    locations.Add(new XY(building.tileX.Value, building.tileY.Value));
+                }
+                else if (method == ProcessMethod.Restore
+                    && building.buildingType.Value.Equals("Earth Obelisk")
+                    && DeepWoodsState.WoodsObeliskNonFarmLocations.TryGetValue(location.Name, out var locations))
+                {
+                    if (locations.Contains(new XY(building.tileX.Value, building.tileY.Value)))
+                    {
+                        location.buildings.Remove(building);
+                        location.buildings.Add(new WoodsObelisk(new(building.tileX.Value, building.tileY.Value)));
+                    }
                 }
             }
         }
@@ -135,6 +128,11 @@ namespace DeepWoodsMod
 
             DeepWoodsState.WoodsObeliskLocations.Clear();
             ProcessFarm(Game1.getFarm(), ProcessMethod.Remove);
+
+            foreach (var location in Game1.locations)
+            {
+                ProcessGameLocation(location, ProcessMethod.Remove);
+            }
         }
 
         public static void RestoreAllInGame()
@@ -145,6 +143,11 @@ namespace DeepWoodsMod
             ModEntry.Log("WoodsObelisk.RestoreAllInGame()", StardewModdingAPI.LogLevel.Trace);
 
             ProcessFarm(Game1.getFarm(), ProcessMethod.Restore);
+
+            foreach (var location in Game1.locations)
+            {
+                ProcessGameLocation(location, ProcessMethod.Restore);
+            }
         }
     }
 }

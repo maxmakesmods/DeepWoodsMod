@@ -1,9 +1,5 @@
 ﻿
 using Microsoft.Xna.Framework;
-using StardewModdingAPI;
-using StardewValley;
-using xTile.Dimensions;
-using xTile.Layers;
 using xTile.Tiles;
 using static DeepWoodsMod.DeepWoodsSettings;
 

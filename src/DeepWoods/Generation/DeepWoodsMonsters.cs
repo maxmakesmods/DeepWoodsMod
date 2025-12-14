@@ -273,13 +273,6 @@ namespace DeepWoodsMod
             return monster;
         }
 
-        private bool IsFriendsWithShadowBrutes()
-        {
-            // TODO: How do we find this out?
-            // TODO #2: Do we actually need to find this out? Looks like SVE doesn't modify brutes in DeepWoods.
-            return false;
-        }
-
         private void BuffMonster(Monster monster)
         {
             int maxAddedSpeed = deepWoods.GetCombatLevel() / 3 + (deepWoods.level.Value - Settings.Level.MinLevelForBuffedMonsters) / 10;
@@ -324,6 +317,13 @@ namespace DeepWoodsMod
             {
                 return 39;
             }
+        }
+
+        private static int SVEDisableShadowsEventID { get; set; } = 1090508;
+        private static bool IsFriendsWithShadowBrutes()
+        {
+            return ModEntry.GetHelper().ModRegistry.IsLoaded("FlashShifter.SVECode")
+                && Game1.getAllFarmers().Any(farmer => farmer.eventsSeen.Contains(SVEDisableShadowsEventID.ToString()));
         }
     }
 }
