@@ -2,17 +2,14 @@
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.GameData.Buildings;
-using System;
 
 namespace DeepWoodsMod
 {
-    internal class WoodsObelisk : Building
+    public class WoodsObelisk : Building
     {
         public WoodsObelisk()
+           : base()
         {
-            id.Value = Guid.NewGuid();
-            resetTexture();
-            initNetFields();
         }
 
         public WoodsObelisk(Vector2 tile)
@@ -56,5 +53,6 @@ namespace DeepWoodsMod
             Game1.activeClickableMenu = new WoodsObeliskMenu();
             return true;
         }
+
     }
 }

@@ -11,6 +11,11 @@ A mod for Stardew Valley that adds a procedurally generated infinite forest with
 ### Release Notes
 
 ---
+#### 4.3.1-beta
+ - Fixed monsters not spawning after last update
+ - Fixed DeepWoodsObelisk not working in multiplayer
+
+---
 #### 4.3.0-beta
  - Fixed shadow brutes softlocking infested levels after SVE shadow friendship event
  - Fixed game loop exception when third party mods move DeepWoodsObelisk or fruit trees into other game locations
